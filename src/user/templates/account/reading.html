@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<title>Reading List - Dementia Learn</title>
+
+<style>
+  body {
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(135deg, #e69d57 10%, #ffd4d4 100%);
+  }
+
+  .container {
+    width: 85%;
+    background: #fff;
+    border-radius: 6px;
+    padding: 20px 40px 30px 40px;
+    margin-top: 3vw;
+    margin-bottom: 6vw;
+  }
+
+  .container h1 {
+    color: black;
+    font-size: 1.5rem;
+  }
+  .details{
+    color: black;
+  background-color: #bcd7ff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 20px;
+  }
+  
+
+  input[type=text] {
+    padding: 6px;
+    font-size: 17px;
+    border: solid #0000006d;
+    border-radius: 10px;
+    width: 300px;
+  }
+  .searchDiv{
+    position: absolute; 
+    top: 0px; 
+    right: 0px; 
+  }
+
+  .searchContainer{
+    display: flex; 
+    position: relative; 
+    margin-bottom: 15px;
+  }
+
+  @media only screen and (max-width: 991px) {
+    input[type=text] {
+      width: 200px;
+
+    }
+  }
+
+  @media only screen and (max-width: 780px) {
+    .searchDiv{
+      position: static;
+      width: 100%;
+      padding-top: 15px;
+    }
+    .searchContainer{
+      display: block;
+    }
+    input[type=text] {
+      width: 100%;
+    }
+    .container {
+      padding: 20px 20px 30px 20px;
+    }
+  }
+</style>
+  <div class="container">
+    <div class="searchContainer">
+      <h1>Reading List</h1>
+      <div class="searchDiv ">
+        <form >
+          <input type="text" name="q" placeholder="Search.." name="search" value="{{ request.GET.q }}">
+        </form>
+      </div>
+    </div>
+    
+    {% for bookmark in bookmarks %}
+      <div class="details pb-1" onclick="window.location.href = '{% url 'blog:detail' bookmark.slug %}';" style="cursor: pointer;">
+        <h5>{{bookmark.title}} </h5>
+        <p style="color: #484848; max-width: 3000px;"> {{ bookmark.author }} ● Date updated: {{ bookmark.date_updated }} ● Reading time: {{ bookmark.reading_time }} minutes</p>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock content %}

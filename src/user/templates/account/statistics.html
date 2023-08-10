@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<title>Statistic - Dementia Learn</title>
+
+<style>
+  .card-topics {
+    background-color: #F2A5A5;
+    border-radius: 15px;
+    padding: 20px;
+  }
+  .card-section:hover {
+	box-shadow: -2px -2px 6px rgba(255, 255, 255, .5), -2px -2px 4px rgba(255, 255, 255, .3), 2px 2px 2px rgba(255, 255, 255, .05), 2px 2px 4px rgba(0, 0, 0, .1);
+  }
+  .card-section:active  {
+    box-shadow: inset -2px -2px 6px rgba(255, 255, 255, .7), inset -2px -2px 4px rgba(255, 255, 255, .5), inset 2px 2px 2px rgba(255, 255, 255, .075), inset 2px 2px 4px rgba(0, 0, 0, .15);
+  }
+  .card-section{
+    background-color: #f3f0f1f9;
+    width: 100%;
+    margin: 30px;
+    padding: 10px;
+    border: transparent;
+    transition: .2s ease-in-out;
+    box-shadow: -6px -6px 14px rgba(255, 255, 255, .7),
+        -6px -6px 10px rgba(255, 255, 255, .5),
+        6px 6px 8px rgba(255, 255, 255, .075),
+        6px 6px 10px rgba(0, 0, 0, .15);
+    border-radius: 25px;
+  }
+  .column {
+    float: left;
+    width: 30%;
+    height: auto;
+    margin: 10px;
+    padding: 40px;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  @media screen and (max-width: 900px) {
+    .column {
+      width: 100%;
+    }
+  }
+
+    body {
+      /* background-image: linear-gradient(135deg, #e69d57 10%, #ffd4d4 100%); */
+
+      background-size: cover;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          color: #333333;
+        }
+    
+        .container {
+            width: fit-content;
+            background: #fff;
+            border-radius: 6px;
+            padding: 20px 60px 30px 40px;
+            box-shadow: 0 0 20px 6px #090b6f85;
+            margin-top: 3vw;
+            margin-bottom: 6vw;
+          }
+        
+          .container h1 {
+            color: black;
+            font-size: 1.5rem;
+          }
+</style>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<div class="fill p-3" style="overflow: visible; display: flex; margin-top: -100px; justify-content: center; align-items: center; position:relative; background-color: #990033; height: 320px;">
+	<h1 class="p-3" style="color: white; font-weight: 600;margin-top: 70px; ">Statistics</h1>
+</div>
+
+<div class="row mx-auto" style="max-width: 100%; justify-content: center;">
+  <div class="column card-section">
+    <h2><strong>User Statistics</strong></h2>
+    <p style="margin-top: 8%;">Number of account registered: <strong>{{ total_users }}</strong> account(s)</p>
+    <p style="margin-top: 8%;"><strong>{{ active_user_week }}</strong> users were active for the last 7 days</p>
+    {% for section, count in completion_rate.items %}
+    <p style="margin-top: 8%;"><strong>{{ count }}%</strong> completed {{ section.title }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="column card-section p-0">
+    <h2 style="padding-left: 40px; padding-top: 40px;"><strong>Number of account registered daily</strong></h2>
+    <div id="user-chart"></div>
+  </div>
+
+  <div class="column card-section">
+    <h2 class="pb-3"><strong>Number of users daily</strong></h2>
+    <p>Total number of visitors: <strong>{{ visits_count }}</strong> visitor(s)</p>
+    <p class="text-secondary">a repeating visitor will be counted as new on the next day</strong> visitors</p>
+    <div id="visit-chart"></div>
+  </div>
+
+  <div class="column card-section">
+    <h2 class="pb-3"><strong>Most bookmarked posts</strong></h2>
+
+
+    {% for topic in top_topics %}
+      <h5>{{ forloop.counter }}. {{ topic.title }}</h5>
+      <p class="text-secondary"><strong>{{ topic.num_bookmarks }}</strong> account(s) bookmarked</p>
+		{% endfor %} 
+  </div>
+</div>
+
+
+
+
+<script>
+    var chartData = {{ plot_div | safe }};
+    Plotly.newPlot('user-chart', chartData);
+
+    var chartData = {{ plot_fig_number_of_visits | safe }};
+    Plotly.newPlot('visit-chart', chartData);
+</script>
+
+{% endblock content %}
