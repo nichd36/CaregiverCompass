@@ -1,0 +1,321 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style type="text/css">
+    
+    .text{
+        background-color: #D9EDFF;
+        font-family: Helvetica, sans-serif;
+    }
+    .container {
+    max-width: 960px;
+    }
+    .pricing-header {
+    max-width: 700px;
+    }
+
+    
+    .btn{
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+    .navbar.upcoming{
+        transform: translateY(0%);
+        transition: all 500ms;
+    }
+
+    .navbar.sticky {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        background-color: #000000c3;
+      }
+     
+.user-prof{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 1.0);
+    margin-left: 15px;
+}
+
+.user-prof:hover {
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 0px 30px rgba(64, 222, 253, 0.8);
+}
+.user-prof.background {
+    box-shadow: 0px 0px 30px rgba(64, 222, 253, 0.8);
+}
+.sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 5%;
+    width: 280px;  
+    max-height: 0px;
+    overflow: hidden;  
+    transition: max-height 0.5s;
+}
+
+.sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.sub-menu{
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0px 0px 10px rgba(58, 58, 58, 0.463);
+}
+
+.sub-menu-link{
+    padding-left: 15px;
+    color: rgb(106, 106, 106);
+    text-decoration: none;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    display: flex;
+}
+.sub-menu-link:hover{
+    background-color: #c2dafbc3;
+    border-radius: 10px;
+}
+
+.header{
+    text-decoration: none;
+    color: white;
+}
+.header:hover{
+    text-decoration: none;
+    color: white;
+    border-bottom: #D9EDFF solid;
+
+}
+#google_translate_element select{
+   background-color:#f6edfd;
+   color:#383ffa;
+   border: none;
+   border-radius:3px;
+   padding:6px 8px
+ }
+.goog-logo-link,.goog-te-gadget span{
+
+    display:none !important;
+
+    }
+
+    .goog-te-gadget{
+
+  color:transparent!important;
+  font-size :0;
+
+  }
+  .VIpgJd-ZVi9od-ORHb-OEVmcd.skiptranslate {
+    display: none !important;
+    } 
+body {
+    top: 0px !important; 
+    }
+#whiteText{
+    border: 2px white solid; 
+    color: white;
+}
+#whiteText:hover{
+    color: black;
+    background: white;
+}   
+.header{
+    font-size: 20px;
+}  
+@media only screen and (min-width: 931px) {
+    /* hide the hamburger */
+    .navbar-toggler {
+      display: none;
+    }
+    /* show all the nav-buttons */
+    .nav-button {
+      display: inline;
+    }
+  }
+  @media only screen and (max-width: 930px) {
+    /* show everything with the hamburger class */
+    .navbar-toggler {
+      display: inline;
+    }
+    /* hide all the nav-buttons */
+    .nav-button {
+      display: none;
+    }
+  }
+  .sidenav {
+    height: 100vh;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    color: rgb(106, 106, 106);
+  }
+  
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidenav a:hover {
+    color: #383ffa;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+</style>
+
+{% load static %}
+<script src="{% static 'app.js' %}" defer></script>
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="LokChat - your trusty chatbot"
+  agent-id="38c9b422-edda-42a6-a282-a26bc05bdc76"
+  language-code="en"
+></df-messenger>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"
+    integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+    crossorigin="anonymous"></script>
+
+    <nav class="text-header navbar upcoming navbar-expand-lg navbar-light px-5" style="z-index: 3;" id="myHeader">
+          
+        <h5 class="my-0 mr-md-auto font-weight-normal">
+            <div class="container-fluid">
+                  <div id="mySidenav" class=" sidenav ">
+                    <a href="javascript:void(0)" class="closebtn " onclick="closeNav()">&times;</a>
+                    {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                    <a  href="{% url 'statistics' %}">Statistics</a>
+                <a  href="{% url 'home' %}" >Homepage</a>
+                <a href="{% url 'topics' %}">Sections</a>
+                <a href="{% url 'contact' %}">Contact Us</a>              
+
+                {% else %}
+                <a  href="{% url 'home' %}" >Homepage</a>
+                <a href="{% url 'topics' %}">Sections</a>
+                <a href="{% url 'contact' %}">Contact Us</a>              
+
+                {% endif %}
+                {% else %}
+                <a  href="{% url 'home' %}">Homepage</a>
+                <a  href="{% url 'topics' %}">Sections</a>
+                <a href="{% url 'contact' %}">Contact Us</a>              
+                <a  href="{% url 'login' %}">Login</a>
+                {% endif %}
+                  </div>
+                  
+                  
+                  <span class="navbar-toggler" style="font-size:30px;cursor:pointer;color: white;" onclick="openNav()">&#9776;</span>
+
+                <a class="navbar-brand d-lg-block nav-button" href="{% url 'home' %}">
+                    <img height="50" src="https://i.ibb.co/XLpGGKn/Add-a-title-2.png" alt="Add-a-title-2" border="0">
+                </a>
+            </div>
+        </h5>
+
+        <div class="my-2 my-md-0 mr-md-3" id="navbar">
+            {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                <a class="p-2 header-text header nav-button" href="{% url 'statistics' %}">Statistics</a>
+                <a class="p-2 header-text header nav-button" href="{% url 'home' %}" >Homepage</a>
+                <a class="p-2 header-text header nav-button" href="{% url 'topics' %}">Sections</a>
+                <a class="p-2 header-text header nav-button" href="{% url 'contact' %}">Contact Us</a>              
+                {% if user.image%}
+                <img class="user-prof" src="{{ user.image.url}}" style="object-fit: cover;"onclick="toggleMenu()" id="user-prof" />
+                {% else %}
+                <img class="user-prof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/751678/skytsunami.png" onclick="toggleMenu()" id="user-prof">
+                {% endif %}
+                <div class="sub-menu-wrap" id="subMenu">
+                    <div class="sub-menu">
+                        <a href="{% url 'detail' %}" class="sub-menu-link">{{request.user.username}}</a>
+                        <hr style=" margin: 15px 0 10px;"> 
+                        <a href="{% url 'reading' %}" class="sub-menu-link">Reading List</a>
+                        <a href="{% url 'account' %}" class="sub-menu-link">Profile Settings</a>
+                        {% if user.socialaccount_set.all %}
+                        {% else %}
+                        <a href="{% url 'password_change' %}" class="sub-menu-link">Change Password</a>
+                        {% endif %}
+                        <hr style=" margin: 15px 0 10px;"> 
+                        <a href="{% url 'logout' %}" class="sub-menu-link">Sign Out</a>
+                    </div>
+                </div>
+                {% else %}
+                <a class="p-2 header-text header nav-button" href="{% url 'home' %}">Homepage</a>
+                <a class="p-2 header-text header nav-button" href="{% url 'topics' %}">Sections</a>
+                <a class="p-2 header-text header nav-button" href="{% url 'contact' %}">Contact Us</a>              
+                {% if user.image%}
+                <img class="user-prof" src="{{ user.image.url}}" style="object-fit: cover;"onclick="toggleMenu()" id="user-prof" />
+                {% else %}
+                <img class="user-prof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/751678/skytsunami.png" onclick="toggleMenu()" id="user-prof">
+                {% endif %}
+                <div class="sub-menu-wrap" id="subMenu">
+                    <div class="sub-menu">
+                        <a href="{% url 'detail' %}" class="sub-menu-link">{{request.user.username}}</a>
+                        <hr style=" margin: 15px 0 10px;"> 
+                        <a href="{% url 'reading' %}" class="sub-menu-link">Reading List</a>
+                        <a href="{% url 'account' %}" class="sub-menu-link">Profile Settings</a>
+                        {% if user.socialaccount_set.all %}
+                        {% else %}
+                        <a href="{% url 'password_change' %}" class="sub-menu-link">Change Password</a>
+                        {% endif %}
+                        <hr style=" margin: 15px 0 10px;"> 
+                        <a href="{% url 'logout' %}" class="sub-menu-link">Sign Out</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <a class="p-2 header-text header nav-button" href="{% url 'home' %}">Homepage</a>
+                <a class="p-2 header-text header nav-button" href="{% url 'topics' %}">Sections</a>
+                <a class="p-2 header-text header nav-button" href="{% url 'contact' %}">Contact Us</a>              
+                <a class="p-2 header-text header nav-button" href="{% url 'login' %}">Login</a>
+                <a class="btn btn-outline-primary header-text nav-button" href="{% url 'register' %}" id="whiteText">Create account</a>      
+            {% endif %}
+        </div>
+
+        <div class="nav-button" id="google_translate_element"></div>
+ 
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                {pageLanguage: 'en'},
+                'google_translate_element'
+            );
+        }
+    </script>
+ 
+    <script type="text/javascript"
+            src=
+"https://translate.google.com/translate_a/element.js?
+cb=googleTranslateElementInit">
+    </script> 
+        
+    </nav>

@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block scripts %}
+  <script src="{% static 'quizes/detail.js'%}" defer></script>
+
+{% endblock scripts%}
+
+{% block title %}
+
+{{obj.name}}
+{% endblock title %}
+{% block content %}
+
+<title>{{ blog_post.title }} - Dementia Learn</title>
+
+<style type="text/css">
+    .card{
+        padding: 20px;  
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .image{
+        height: 100vh;
+        object-fit: cover;
+    }
+.navbar{
+    background-color: #000000c3;
+        box-shadow: 0px 0px 10px #a2a2a27b;
+    }
+
+
+    .bayangan{
+        box-shadow: 0px -15px 30px #a2a2a239;
+    }
+
+    .sticky1 {
+        overflow: hidden;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 10%;
+        /* padding: 80px; */
+        font-size: 20px;
+    }
+
+    #progress-bar {
+    --scrollAmount: 0%;
+    
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    width: var(--scrollAmount);
+    z-index: 2;
+    
+    height: 15px;
+    position: fixed;
+    top: 0;
+}
+.wrapper{
+    display: flex;
+    width: 100%;
+}
+article{
+    counter-reset: heading;
+}
+article h2::before{
+    counter-increment: heading;
+    content: '0'counter(heading)': ';
+}
+#toc h2 {
+    text-transform: uppercase;
+    font-size: 11pt;
+    letter-spacing: 2px;
+}
+#toc h3 {
+    font-weight: normal;
+    font-size: inherit;
+}
+
+.btn-circle.btn-xl {
+    width: 100px;
+    height: 100px;
+    padding: 13px 18px;
+    border-radius: 60px;
+    font-size: 15px;
+    text-align: center;
+}
+.contentWrapper{
+    padding: 4vw; 
+    margin-top:-200px; 
+    background-color: white; 
+    min-height: 100%; 
+    margin-left:10px;  
+    max-width: 65%; 
+    margin-bottom: 50px;
+}
+.rightCornerBookmark{
+    text-align: center; 
+    right: 0; 
+    top: 0; 
+    position: absolute;
+}
+  @media only screen and (max-width: 800px) {
+    .wrapper{
+        display: block;
+    }
+    .contentWrapper{
+        max-width: 100%; 
+        margin-right: 20px;
+        margin-bottom: 0px;
+        position: relative;
+    }
+    .displayOrNot{
+        display: none;
+    }
+    .sticky1{
+        margin-bottom: 10px;
+    }
+    .remove{
+        display: none;
+    }
+    
+  }
+  @media only screen and (min-width: 801px) {
+    .rightCornerBookmark{
+        display: none;
+    }
+  }
+</style>
+<template>
+    <ul>
+        <li style="padding-bottom: 5px;"><a href='#h-1'><slot name='h-1'></slot></a></li>
+        <li style="padding-bottom: 5px;"><a href='#h-2'><slot name='h-2'></slot></a></li>
+        <li style="padding-bottom: 5px;"><a href='#h-3'><slot name='h-3'></slot></a></li>
+        <li style="padding-bottom: 5px;"><a href='#h-4'><slot name='h-4'></slot></a></li>
+        <li style="padding-bottom: 5px;"><a href='#h-5'><slot name='h-5'></slot></a></li>
+        <li style="padding-bottom: 5px;"><a href='#h-6'><slot name='h-6'></slot></a></li>
+        <li style="padding-bottom: 5px;"><a href='#h-7'><slot name='h-7'></slot></a></li>
+    </ul>
+    <style>
+        ul{
+            list-style: none;
+        }
+        ul:not(li>ul){
+            padding-left: 0;
+        }
+        a:link {
+            color: inherit;
+        }
+    </style>
+</template>
+
+<script src="{% static 'app.js' %}" defer></script>
+<div id="progress-bar" style="margin-top: 75px; "></div>
+
+<div class="container-fluid p-0 m-0" style="background-color: #F5F5F5;"> 
+    <div class = "image" style="background-image: url('{{blog_post.image.url}}'); background-size: cover; width: 100%; margin-top: -100px; padding-top: 50vh; background-repeat: no-repeat;"> 
+    </div> 
+    
+    <div class="wrapper">
+        
+        <div class="remove"style="text-align: center; margin-top: 20px;">
+            {% if user.is_authenticated %}
+                <form action="{% url 'blog:bookmark-topic' blog_post.slug %}" method="POST" style="color:white;">
+                    {% csrf_token %}
+                    {% if not bookmarked %}
+                    <button type="submit" name="blog_post_slug" class="btn-circle btn-xl" style="border:none; background-color: #F5F5F5" value="{{ blog_post.slug }}">
+                        <img src="https://live.staticflickr.com/65535/53061171761_11446e3bc9_m.jpg" style="width: 100%;">
+                    </button> 
+                    {% else %}
+                    <button type="submit" name="blog_post_slug" class="btn-circle btn-xl" style="border:none; background-color: #F5F5F5" value="{{ blog_post.slug }}">
+                        <img src="https://live.staticflickr.com/65535/53060606667_0f74dbfdfb_m.jpg" style="width: 100%;">
+
+                    </button> 
+                    {% endif %}
+                </form>
+            <h6 style="color: #6D7D8B;">{{ total_likes }}</h6>
+            {% else %}
+                <div style="width: 30px;">
+                </div>
+            {% endif %}
+        </div>
+
+
+        <div class="card contentWrapper">
+            <p style="color: #6d6d6d; font: 10px;">{{blog_post.date_updated}}<p>
+            <p class="font-weight-bold" style="font-size: 50px; margin-top: -30px;">{{blog_post.title}}</p>
+                <p class="text-muted" style="font-size: 17px;">By {{blog_post.author}} - around {{ reading_time }} minutes read time</p>
+                <div class="rightCornerBookmark">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'blog:bookmark-topic' blog_post.slug %}" method="POST" style="color:white;">
+                        {% csrf_token %}
+                        {% if not bookmarked %}
+                        <button type="submit" name="blog_post_slug" class="btn-circle btn-xl" style="border:none; background-color: white" value="{{ blog_post.slug }}">
+                            <img src="https://live.staticflickr.com/65535/53083360176_f713a97295_m.jpg" style="width: 100%;">
+                        </button> 
+                        {% else %}
+                        <button type="submit" name="blog_post_slug" class="btn-circle btn-xl" style="border:none; background-color: white" value="{{ blog_post.slug }}">
+                            <img src="https://live.staticflickr.com/65535/53083845313_0a01c01a23_m.jpg" style="width: 100%;">
+            
+                        </button> 
+                        {% endif %}
+                    </form>
+                    <h6 style="color: #6D7D8B;">{{ total_likes }}</h6>
+                    {% endif %}
+                </div>            <hr>
+            {% if request.user.is_superuser %}
+                <a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Update</a>
+            {% endif %}
+
+            <article>
+                <div id='toc1' ></div>
+                <p class="card-text mt-2">{{blog_post.body|safe}}</p>
+            </article>
+    
+        </div>
+        <div>
+            {% if user.is_authenticated and not user.is_superuser %}
+                <div class="sticky1" style="margin-right: 12px">
+                    <div class="sticky1" style=" margin-top: 10px; margin-left: 12px; margin-right: 12px" >
+                        <div class="card" style="margin-bottom: 15px; min-width: 22vw;">
+                            <h6 style="padding-bottom: 10px;">Try our quiz</h6>
+                            <a class=" btn " href="quiz" style="color:white; background: #0C6DFD;">TRY NOW!</a>
+                        </div>
+                    </div>
+                    <div class="sticky1 displayOrNot" style=" margin-top: 45px; margin-left: 12px; margin-right: 12px;" >
+                        <div class="card" style="margin-bottom: 15px; min-width: 22vw;">
+                            <div id='toc'></div>
+                        </div>
+                    </div>
+                </div>
+            {% elif user.is_superuser %}
+                <div class="sticky1" style="margin-right: 12px">
+                    <div class="sticky1" style=" margin-top: 10px; margin-left: 12px; margin-right: 12px" >
+                        <div class="card" style="margin-bottom: 15px; min-width: 22vw;">
+                            <h6 style="color: #991A36; padding-bottom: 10px;">Admin preview, results won't be saved</h6>
+                            <a class=" btn " href="quiz" style="color:white; background: #991A36;">Open quiz preview</a>
+                        </div>
+                    </div>
+                    <div class="sticky1 displayOrNot" style=" margin-top: 45px; margin-left: 12px; margin-right: 12px;" >
+                        <div class="card" style="margin-bottom: 15px; min-width: 22vw;">
+                            <div id='toc'></div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="sticky1" style="margin-right: 12px">
+                    <div class="sticky1" style=" margin-top: 17px; margin-left: 12px; margin-right: 12px;" >
+                        <div class="card" style="margin-bottom: 15px; min-width: 22vw;">
+                            <h6 style="padding-bottom: 10px;">Sign in or sign up now to try out the quiz</h6>
+                            <a class=" btn btn-primary" href="{% url 'register' %}" style="color:white;">SIGN UP NOW!</a>
+                        </div>
+                    </div>
+                    <div class="sticky1 displayOrNot" style=" margin-top: 45px; margin-left: 12px; margin-right: 12px;" >
+                        <div class="card" style="margin-bottom: 15px; min-width: 22vw;">
+                            <div id='toc'></div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+                    
+            
+        </div>
+        
+        
+    </div>
+</div>
+
+
+<script>
+    if('name' in document.createElement('slot') && 'attachShadow' in document.createElement('p')) {
+        let templateContent = document.querySelector('template').content;
+        let article = document.querySelector('article').cloneNode(true);
+        article.querySelectorAll('*[id]').forEach((ele)=>{ele.removeAttribute('id')})
+        article.attachShadow({  mode: 'closed' }).appendChild(templateContent.cloneNode(true));
+        document.querySelector('#toc').appendChild(article);
+    }
+    else{
+        let strong = document.createElement('strong');
+        strong.textContent = '⚠️ HTML Slot or Shadow DOM is not supported in your browser. Please try the demo in another browser.';
+        strong.style['color'] = 'red';
+        document.body.insertBefore(strong, document.querySelector('h1'))
+    }
+    </script>
+
+{% endblock content %}

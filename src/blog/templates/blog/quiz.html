@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block script %}
+
+{% endblock script %}
+{% block title %}
+
+
+{% endblock title %}
+
+{% block content %}
+<script src="{% static 'test.js' %}" defer></script>
+<style>
+
+
+body {
+  background-image: linear-gradient(135deg, #e69d57 10%, #ffd4d4 100%);
+  background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #333333;
+      }
+
+      .box-form {
+        margin: 0 auto;
+        margin-top: 3vw;
+        margin-bottom: 6vw;
+        padding: 30px;
+        width: 60%;
+        background: #FFFFFF;
+        border-radius: 10px;
+        overflow: hidden;
+      
+        flex: 1 1 100%;
+        align-items: stretch;
+        justify-content: space-between;
+      }
+      @media (max-width: 980px) {
+        .box-form {
+          flex-flow: wrap;
+          text-align: center;
+          align-content: center;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+      }
+      .box-form div {
+        height: auto;
+      }
+      .row{
+        text-align: center;
+      }
+      .main1{
+    /* background: rgba(217, 214, 228, 0.12); */
+    border-radius: 10px;
+    {% comment %} padding: 5px 20px 50px; {% endcomment %}
+    width: 95%;
+    max-width: 500px;
+    margin: 0 auto ;
+    
+      }
+      .submitbut{
+        width: 100%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .submitbut1{
+        width: 100%;
+      }
+      @media only screen and (max-width: 760px) {
+        .box-form{
+          width: 80%;
+        }
+      }   
+</style>
+<div class="box-form">
+<div class="row">
+    <div class="col">
+      <b style="font-size: 40px;">{{ obj.title }}</b>
+    </div>
+</div>
+  <form id="quiz-form" class="mt-3 mb-3">
+      
+      {% csrf_token %}
+      <div id="quiz-box" class="main1"></div>
+      <div class="submitbut">
+        <button type="submit" class="btn btn-primary mt-3 submitbut1">Submit</button>
+      </div>
+  </form>
+  <div id="score-box"></div>
+  <div id="result-box"></div>
+</div>
+ 
+
+
+{% endblock content %}

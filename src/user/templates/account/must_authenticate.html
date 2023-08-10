@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+<!-- {% load static %} -->
+{% block content %}
+<style>
+    body {
+      background-image: linear-gradient(135deg, #e69d57 10%, #ffd4d4 100%);
+      background-size: cover;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          color: #333333;
+        }
+    
+        .container {
+            max-width: 80%;
+            background: #fff;
+            border-radius: 6px;
+            padding: 20px 30px 30px 30px;
+            box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.3);
+            margin-top: 3vw;
+            {% comment %} margin-bottom: 6vw; {% endcomment %}
+            margin-left: 10%;
+            margin-right: 10%;
+          }
+        
+          .container h1 {
+            color: black;
+            font-size: 1.5rem;
+          }
+</style>
+
+<div class="container">
+    <div class="d-flex flex-column">
+        {% if not request.user.is_authenticated %}
+        <p class="m-auto" style="text-align: center;">You need to sign in first in order to access</p>
+        <p class="m-auto">
+            <a href="{% url 'register' %}">Register</a> or 
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+        {% elif not request.user.is_superuser %}
+        <p class="m-auto">Access denied, please contact administrator for access</p>
+        {% endif %}
+
+        {% if request.user.is_superuser %}
+        <p class="m-auto">Admin role detected, a problem may have occured please go back to the previous page and notify the support team</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

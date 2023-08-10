@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<title>Account - Dementia Learn</title>
+
+<style type="text/css">
+  body{
+    background-image: linear-gradient(135deg, #e69d57 10%, #ffd4d4 100%);
+  
+  }
+    .form-signin {
+    width: 100%;
+    max-width: 1000px;
+    padding: 30px;
+    margin: auto;
+    }
+    .form-signin .form-control {
+    /* position: relative; */
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    }
+    .form-signin .form-control:focus {
+    z-index: 2;
+    }
+    .form-signin input[type="email"] {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    }
+    .form-signin input[type="text"] {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    }
+    
+    /* Style the tab */
+.tab {
+  float: left;
+  /* border: 1px solid #ccc; */
+  /* background-color: #f1f1f1; */
+  width: 20%;
+  height: 80px;
+  padding-right: 20px;
+  
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 15px 15px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  /* padding: 30px; */
+  /* border: 1px solid #ccc; */
+  width: 65%;
+  /* border-left: none; */
+  /* height: 300px; */
+  box-shadow: 0px 10px 20px #a2a2a27b;
+border-radius: 10px;
+}
+.button{
+  background-color: #0C6DFD;
+  border: none;
+}
+
+</style>  
+<div style="margin-left: 10%; margin-right: 10%; min-height: 600px; margin-top: 30px; margin-bottom: 50px; background-color:white; border-radius: 10px; ">
+    <form class="form-signin" method="post" enctype="multipart/form-data">{% csrf_token %}
+      <h3 style="margin-bottom: 20px;">Profile Settings for <a style="color: blue; text-decoration: none;" href="{% url 'detail' %}">@{{account_form.initial.username}}</a></h3>
+      <h6>Email</h6>
+      {% if not allauth %} 
+         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus value="{{account_form.initial.email}}"> 
+         {% else %} 
+        <div class="form-control" style="background-color: rgba(0,0,0,0.04)">
+          <p style="margin-bottom: 0px; color:rgba(0,0,0,0.2);">Google account cannot change email. Your email: {{account_form.initial.email}}</p>
+        </div> 
+        {% endif %}  
+        <h6>Name</h6>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="New username" required value="{{account_form.initial.username}}">
+        <h6>Profile image</h6>
+          <div style="margin-bottom: 20px; max-width: 1px;">
+          {{ account_form.image }}
+          </div>
+          <div style="margin-bottom: 30px;">
+            
+        {% if not allauth %}
+          <p style="margin-top: 40px;">Click <a class="m-auto" href="{% url 'password_change' %}" >here </a> to change your password</p>
+        {% else %}
+          <p style="margin-top: 40px; color:rgba(0,0,0,0.5)">Password of user who signed in with Social Accounts cannot be changed</p>
+        {% endif %}
+
+        </div>
+
+        <button class=" btn-lg btn-primary btn-block button" type="submit">Update Profile</button>
+    
+      {% for field in account_form %}
+      {% for error in field.errors %}
+      <div style="margin-top:20px;">
+        <p style="color: red;">{{error}}</p>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    
+      {% if account_form.non_field_errors %}
+      <div style="color:red;">
+        <p>{{account_form.non_field_errors}}</p>
+      </div>
+      {% endif %}
+    
+      {% if success_message %}
+      <div style="margin-top:20px;">
+        <p style="color: cornflowerblue;">{{success_message}}</p>
+      </div>
+      {% endif %}
+    </form>
+    <!-- End of profile -->
+</div>
+
+{% endblock content %}
+
+

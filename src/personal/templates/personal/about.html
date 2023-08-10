@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dementia Learn</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+    }
+
+    header {
+      background-color: #ffd4d4;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-top: 2rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+
+    .team-member {
+      display: block;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .team-member img {
+      width: 100%;
+      height: 400px;
+      border-radius: 10%;
+      margin-right: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .work-item, .collaboration-item {
+      margin-bottom: 1rem;
+    }
+
+    .work-item h3, .collaboration-item h3 {
+      font-size: 1.5rem;
+    }
+
+    .work-item p, .collaboration-item p {
+      font-size: 1.1rem;
+    }
+
+    .work-item img, .collaboration-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .our-team-section, .collaboration-section {
+      margin-bottom: 2rem;
+    }
+.our-work-section{
+  {% comment %} margin-bottom: 2rem; {% endcomment %}
+  background-color: #F2A5A5;
+  width: 100vw;
+  margin: 0 auto;
+
+}
+    .team-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .team-member, .work-item {
+      flex-basis: calc(33.33% - 1rem);
+    }
+
+    .work-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .work-item {
+      flex-basis: calc(50% - 1rem);
+    }
+    .collaboration-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+   /* Fade-in animation for the entire page */
+   @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    body {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Animation for the header */
+    @keyframes slideInFromTop {
+      from {
+        transform: translateY(-100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    header {
+      animation: slideInFromTop .5s ease-in-out;
+    }
+    
+    /* Align team members at the top of each row */
+    .team-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start; /* Add this line to align items at the top */
+      margin-bottom: 1rem;
+    }
+
+ /* Responsive styles for team members section */
+ @media screen and (max-width: 768px) {
+      .team-row {
+        flex-direction: column; /* Change to column layout on smaller screens */
+        align-items: center; /* Center items horizontally */
+      }
+    }
+
+    /* Responsive styles for our work section */
+    @media screen and (max-width: 768px) {
+      .work-row {
+        flex-direction: column; /* Change to column layout on smaller screens */
+        align-items: center; /* Center items horizontally */
+      }
+      .work-item {
+        flex-basis: 100%; /* Show one item per row on smaller screens */
+      }
+    }
+
+    /* Responsive styles for collaboration section */
+    @media screen and (max-width: 768px) {
+      .collaboration-row {
+        grid-template-columns: 1fr; /* Display collaboration items in a single column on smaller screens */
+      }
+
+      .collaboration-item {
+        flex-basis: 100%; /* Show one item per row on smaller screens */
+      }
+    }
+
+    /* Responsive styles for even smaller screens */
+    @media screen and (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem; /* Reduce font size for h1 */
+      }
+
+      h2 {
+        font-size: 1.6rem; /* Reduce font size for h2 */
+      }
+
+      p {
+        font-size: 1rem; /* Keep the same font size for paragraphs */
+      }
+
+      .team-member img,
+      .work-item img,
+      .collaboration-item img {
+        width: 200px; /* Reduce image width for team, work, and collaboration sections */
+        height: 200px; /* Reduce image height for team, work, and collaboration sections */
+      }
+
+      .team-row,
+      .work-row,
+      .collaboration-row {
+        flex-wrap: wrap; /* Change to rows on smaller screens */
+        justify-content: center; /* Center items horizontally */
+      }
+
+      .team-member,
+      .work-item,
+      .collaboration-item {
+        flex-basis: 100%; /* Show one item per row on smaller screens */
+        margin-bottom: 1rem; /* Add some spacing between items */
+      }
+    }
+  </style>
+</head>
+<body>
+    <div class="fill p-3" style="display: flex; margin-top: -100px; justify-content: center; align-items: center; position:relative; background-color: #F2A5A5; height: 320px;">
+        <h1 class="p-3" style="color: white; font-weight: 600;margin-top: 70px; ">About us</h1>
+    </div>
+
+
+  <div class="container">
+
+    <section class="our-team-section">
+      <h2>Our Team</h2>
+      <br>
+      <div class="team-row">
+        <div class="team-member">
+          <img src="https://live.staticflickr.com/65535/52855635274_6346db3a04_n.jpg" alt="Dr. Emily Thompson">
+          <div>
+            <h3>Dr. Scott
+            </h3>
+            <p>Founder & Dementia Specialist</p>
+            <p>Dr. Scott is a renowned geriatric psychiatrist with a passion for dementia care. His expertise in the field has shaped Dementia Learn into a reliable and comprehensive platform. </p>
+          </div>
+        </div>
+        <div class="team-member">
+            <img src="https://live.staticflickr.com/65535/52854878597_30b604ef4f_n.jpg" alt="Dr. Emily Thompson">
+            <div>
+            <h3>Dr.Dylan</h3>
+            <p>Content Manager</p>
+            <p>Dr. Dylan keeps track of the latest advancements in dementia research, ensuring that our content is based on the most current evidence.</p>
+          </div>
+        </div>
+        <div class="team-member">
+            <img src="https://live.staticflickr.com/65535/52855905738_a68853eb87_n.jpg" alt="Dr. Emily Thompson">
+            <div>
+            <h3>Keng Fai</h3>
+            <p>Community Outreach Coordinator</p>
+            <p>Keng Fai connects with organizations, support groups, and caregivers to foster collaboration and expand the reach of Dementia Learn.</p>
+          </div>
+        </div>
+      </div>
+      <div class="team-row">
+        <div class="team-member">
+            <img src="https://live.staticflickr.com/65535/52855905753_2be6c21bf8_n.jpg" alt="Dr. Emily Thompson">
+          <div>
+            <h3>Dr. Jessica Lee</h3>
+            <p>Research Analyst</p>
+            <p>Sarah has a background in healthcare communication and ensures that the information on Dementia Learn is accurate, up-to-date, and user-friendly.</p>
+          </div>
+        </div>
+        <div class="team-member">
+            <img src="https://live.staticflickr.com/65535/52855459356_2401725322_n.jpg" alt="Dr. Emily Thompson">
+          <div>
+            <h3>Maria Garcia</h3>
+            <p>Caregiver Support Specialist</p>
+            <p>Maria provides guidance and support to caregivers through articles, webinars, and personalized assistance.</p>
+          </div>
+        </div>
+        <div class="team-member">
+            <img src="https://live.staticflickr.com/65535/52855905778_5d3df5f910_n.jpg" alt="Dr. Emily Thompson" >
+          <div>
+            <h3>Alex Turner</h3>
+            <p>Web Developer</p>
+            <p>Alex is the tech wizard behind the Dementia Learn website, ensuring a smooth user experience and easy navigation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+    <section class="our-work-section">
+      <div class="container">
+      <h2 >Our Work</h2>
+      <div class="work-row">
+        <div class="work-item">
+          <img src="https://live.staticflickr.com/65535/53086114518_ce280feb79_z.jpg" alt="Dr. Emily Thompson" >
+          <h3 >Educational Content</h3>
+          <p >Our website hosts a vast library of articles, guides, and videos that cover various aspects of dementia, ranging from early detection to effective caregiving techniques.</p>
+        </div>
+        <div class="work-item">
+          <img src="https://live.staticflickr.com/65535/53086114508_b1c2721ef7_z.jpg" alt="Dr. Emily Thompson">
+          <h3 >Webinars and Workshops</h3>
+          <p >We organize webinars and workshops led by experts in the field, providing opportunities for interactive learning and skill development.</p>
+        </div>
+      </div>
+      <div class="work-row">
+        <div class="work-item">
+          <img src="https://live.staticflickr.com/65535/53086027300_635bdbd7be_z.jpg" alt="Caregiver Support">
+          <h3 >Caregiver Support</h3>
+          <p >We offer dedicated support for caregivers through articles, webinars, and personalized assistance to help them cope with the challenges of dementia care.</p>
+        </div>
+        <div class="work-item">
+          <img src="https://live.staticflickr.com/65535/53086027305_f7b016d1cc_z.jpg" alt="Advocacy and Awareness">
+          <h3>Advocacy and Awareness</h3>
+          <p >We actively advocate for dementia-friendly policies and raise awareness about the challenges faced by individuals living with dementia and their families.</p>
+        </div>
+      </div>
+    </div>
+    </section>
+<div class="container">
+    <section class="collaboration-section">
+        <h2>Collaboration</h2>
+        <div class="collaboration-row">
+          <div class="collaboration-item">
+            <img src="https://live.staticflickr.com/65535/53085049937_2ce9c8d304_c.jpg" alt="Advocacy and Awareness">
+            <h3>Healthcare Professionals</h3>
+            <p>Working hand-in-hand with healthcare experts allows us to create evidence-based content and provide comprehensive support to families and individuals affected by dementia.</p>
+          </div>
+          <div class="collaboration-item">
+            <img src="https://live.staticflickr.com/65535/53086114438_71c302a0c7_z.jpg" alt="Advocacy and Awareness">
+            <h3>Support Groups and Organizations</h3>
+            <p>We partner with local and global support groups and organizations to expand our reach and offer diverse perspectives on dementia care.</p>
+          </div>
+          <div class="collaboration-item">
+            <img src="https://live.staticflickr.com/65535/53085617861_264fd83cf2_z.jpg" alt="Advocacy and Awareness">
+            <h3>Research Institutions</h3>
+            <p>Collaborating with research institutions helps us stay at the forefront of advancements in dementia research and offer the most current information to our users.</p>
+          </div>
+        </div>
+    </section>
+  </div>
+  </div>
+</body>
+</html>
+
+
+{% endblock content%}

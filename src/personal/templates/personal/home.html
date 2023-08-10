@@ -1,0 +1,871 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
+<title>Welcome to Dementia Learn</title>
+
+<style type="text/css">
+    @media screen and (max-width: 900px) {
+        .column {
+            width: 100%;
+        }
+    }
+    .parent {
+        /* position: relative; */
+        top: 0;
+        left: 0;
+        /* border: 1px solid #c3c3c3; */
+        justify-content: center;
+        text-align: center;
+    }
+
+    .rounded-image{
+        border-radius: 20px;
+        background-color: transparent;
+        width: 100%;
+        height: 200px;
+        perspective: 1000px;
+    }
+    .flip-card-inner {
+        position: relative;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+    .rounded-image:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+        border-radius: 20px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    .flip-card-front {
+        background-color: black; 
+        color: black;
+    }
+    .flip-card-back{
+        border-radius: 20px;
+        background-color: #FFD4D4;
+        color: black;
+        padding-top: 50px;
+        padding-left: 5px;
+        padding-right: 5px;
+        transform: rotateY(180deg);
+    }
+    .flip-card-back .text {
+        background-color: transparent;
+        font-size: 30px;
+        overflow-wrap: break-word;
+    }
+    
+    .main-image{
+        position: relative;
+        max-width: 1000px;
+        margin: 0 auto !important;
+        top: 0;
+        left: 0;
+    }
+    .row {
+        border-radius: 20px;
+        top: 0px;
+        max-width: 1000px;
+        margin: 0 auto !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-weight: 500;
+        color: black;
+    }
+
+    .form-control {
+    box-sizing: border-box;
+    height: auto;
+    font-size: 18px;
+    background-color:white;
+    flex-grow:2;
+    border: none;
+    }
+
+    input[type="email"]:-webkit-autofill{
+        transition: background-color 5000s ease-in-out 0s;
+}
+
+    .button {
+    position: relative;
+    height: auto;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 18px;
+    border-radius: 10px;
+    background-color:#E69D57;
+    border: none;
+    color: white;
+    margin-left: 10px;
+    }
+
+    .card-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .column {
+        flex: 1%;
+        padding: 6px;
+    }
+
+    .small_team{
+        height: 10vw;
+    }
+
+    .column-purpose {
+        flex: 1;
+        padding-top: 25px;
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+        background-color: transparent;
+        height: 40vh;
+    }
+    .column-purpose:hover {
+        box-shadow: 0px 0px 200px rgb(183, 74, 255, 0.7);
+        transform: scale(1.1);
+        z-index: 2;
+        transition-delay: 0ms !important;
+        background-size: 100% 100%;
+    }
+    .carousel {
+            background: white;
+    }
+    .carousel-cell {
+        width: 90%;
+        height: 300px;
+        margin-right: 30px;
+        opacity: 0.8;
+        border-radius: 20px;
+        counter-increment: carousel-cell;
+        transition: 1s;
+    }
+    .carousel-cell:before {
+        display: block;
+        text-align: center;
+        content: counter(carousel-cell);
+        line-height: 200px;
+        font-size: 80px;
+        color: white;
+    }
+    .carousel-cell.is-selected {
+        background: #ED2;
+        opacity: 1;
+        transition: all 1s;
+    }
+    .carousel-cell-image {
+        display: block;
+        max-height: 100%;
+        margin: 0 auto;
+        max-width: 100%;
+        opacity: 0;
+        -webkit-transition: opacity 0.4s;
+                transition: opacity 0.4s;
+    }
+    .carousel-image {
+        display: block;
+        height: 200px;
+        /* set min-width,
+            allow images to determine cell width */
+        min-width: 150px;
+        max-width: 100%;
+        margin-right: 10px;
+        /* vertically center */
+        top: 50%;
+        transform: translateY(-50%)
+    }
+    .video-container {
+        height: 300px;
+        width: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+    .video-container video {
+        min-width: 100%;
+        min-height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        align-items: center;
+        border: solid;
+    }
+    
+    /* Just styling the content of the div, the *magic* in the previous rules */
+    .video-container .caption {
+        z-index: 1;
+        position: absolute;
+        text-align: center;
+        max-width: 100%;
+        color: rgb(0, 0, 0);
+        padding: 20px;
+        top: 35%;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .rounded-border{
+        border-radius: 20px;
+    }
+    div.card {
+        width: 250px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        text-align: center;
+    }
+    
+    .div-carousel {
+        border-radius: 20px;
+        background-color: #ffffff;
+        background-size: 50% 100%;
+        background-repeat: no-repeat;
+        box-shadow: -10px -10px 15px rgba(255,255,255,0.5), 10px 10px 15px rgba(70,70,70,0.12);
+        width: 40vw;
+        height: 30vw;
+        margin: 20px;
+        filter: blur(2px);
+        opacity: .5;
+        transform: scale(0.7);
+    }
+    .div-carousel.is-selected {
+        border-radius: 20px;
+        filter: blur(0px);
+        opacity: 1;
+        transform: scale(1);
+        transition: all 500ms;
+    }
+    .pop-up{
+        display: none;
+    }
+    {% comment %} <!-- Section --> {% endcomment %}
+    .section {
+   display:flex;
+   flex-direction:row;
+   justify-content:center;
+   align-items:center;
+   overflow:hidden;
+   {% comment %} transition:.25s; {% endcomment %}
+   .options {
+      display:flex;
+      flex-direction:row;
+      align-items:stretch;
+      overflow:hidden;
+
+      min-width:600px;
+      max-width:900px;
+      width:calc(100% - 100px);
+      
+      height:400px;
+    
+      
+      .option {
+         position: relative;
+         overflow:hidden;
+         min-width:60px;
+         margin:10px;
+         background:var(--optionBackground, var(--defaultBackground, #E6E9ED));
+         background-size:auto 120%;
+         background-position:center;
+
+         cursor: pointer;
+
+         transition:.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+
+         &.active {
+            flex-grow:10000;
+            transform:scale(1);
+            margin:0px;
+            border-radius:40px;
+            background-size:auto 100%;
+           
+            .label {
+               bottom:20px;
+               left:20px;
+               .info >div {
+                  left:0px;
+                  opacity:1;
+               }
+            }
+         }
+         &:not(.active) {
+            flex-grow:1;
+            border-radius:30px;
+            .label {
+               bottom:10px;
+               left:10px;
+               .info >div {
+                  left:20px;
+                  opacity:0;
+               }
+            }
+         }
+         .shadow {
+            position: absolute;
+            bottom:0px;
+            left:0px;
+            right:0px;
+            height:120px;
+            transition:.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+            background-image: linear-gradient(0deg, rgb(0, 0, 0), rgba(255, 255, 0, 0));
+
+         }
+         .label {
+            display:flex;
+            position: absolute;
+            right:0px;
+            height:40px;
+            transition:.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+            .icon {
+               display:flex;
+               flex-direction:row;
+               justify-content:center;
+               align-items:center;
+               
+               min-width:40px;
+               max-width:40px;
+               height:40px;
+               border-radius:100%;
+
+               background-color:white;
+               color:var(--defaultBackground);
+            }
+            .info {
+               display:flex;
+               flex-direction:column;
+               justify-content:bottom;
+               
+               margin-left:10px;
+               
+               color:white;
+               
+               white-space: pre;
+               >div {
+                  position: relative;
+                  
+                  transition:.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), opacity .5s ease-out;
+               }
+
+               .main {
+                margin-top: 5px;
+                  font-weight:bold;
+                  transition-delay:.1s;
+               }
+            }
+            }
+   }
+}
+}
+{% comment %} <!-- EndSection --> {% endcomment %}
+.displayNow{
+    display: none;
+}
+
+.removeNow{
+    display: block;
+}
+.teamHolder{
+    margin: 0 auto;  
+    padding-left: 10vw; 
+    padding-right: 10vw;
+}
+.understanding{
+    line-height: 24px; 
+    font-size: 18px; 
+    font-weight: 500; 
+    padding-top: 6%; 
+    max-width: 100%;
+}
+.education{
+    font-weight: 600; 
+    font-size: 65px; 
+    line-height: 55px;
+}
+.purpose{
+    margin-top: 50px;
+}
+.educationHolder{
+    height: 300px;
+}
+.spread{
+    padding: 20px;
+}
+.removeSmall{
+    display: block;
+}
+.displaySmall{
+    display: none;
+}
+{% comment %} Smaller section {% endcomment %}
+.section3 {
+    display: block;
+    flex-direction: column;
+  }
+  .img1 {
+    width: 80%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 40px;
+    margin-right: 10%;
+    margin-bottom: 20px;
+    margin-left: 10%;
+    transition:.25s;
+    cursor: pointer;
+    transition:.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+    position: relative;
+}
+  .img1-active {
+    height: 400px;
+  }
+  .displaySmallEmail{
+    display: none;
+  }
+@media only screen and (max-width: 767px) {
+    .row{
+        padding-top: 50px;
+      }
+      .moveDown{
+          margin-top: 50px;
+          margin-bottom: -40px;
+      }
+      .education{
+        font-size: 58px; 
+        line-height: 50px;
+      }
+}
+@media only screen and (max-width: 600px) {
+    .displayNow{
+        display: block;
+    }
+    .teamHolder{
+        padding-left: 10vw; 
+        padding-right: 10vw;
+    }
+    .removeNow{
+        display: none;
+    }
+    .purpose{
+        margin-top: 300px;
+    }
+    .education{
+        font-size: 45px; 
+        line-height: 50px;
+      }
+      .spread{
+        padding: 5px;
+    } 
+    .section{
+        display: none;
+    }
+    .displaySmallEmail{
+        display: flex;
+      }
+  }
+  @media only screen and (min-width: 600px) {
+    .section3{
+        display: none;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .teamHolder{
+        padding-left: 3vw; 
+        padding-right: 3vw;
+    }
+    .removeSmall{
+        display: none;
+    }
+    .displaySmall{
+        display: block;
+    }
+      .educationHolder{
+        height: 270px;
+      } 
+    
+  }
+</style>
+
+
+<body style="background-color: white;">
+</body>
+
+<div style="position: relative; margin-top: -100px; height: 100vh; min-height: 500px; padding-top: 120px; background-image: linear-gradient(180deg, transparent 50%, white 80%), linear-gradient(0deg, transparent 40%, rgba(0,0,0,0.8) 85%), url('https://live.staticflickr.com/65535/53095177538_8c7bc6d71a_c.jpg'); object-fit: fill; background-size: 100% 100%;">
+    <div class="px-0 py-2 pt-md-5 pb-md-3 mx-auto text-center">
+        
+        <div class="row">
+            <h1 style="color: #ffffff;" class="upcoming header-text font-weight-bold">ASSISTING PEOPLE WITH DEMENTIA</h1>
+        </div>
+
+        <div class=" removeNow column mx-auto" style="position:absolute; bottom: 50px; left: 0; right: 0; margin: 0 auto; ">
+            <p style="color: rgba(255, 255, 255, 0.717);" class="upcoming parent font-weight-bold moveDown">OUR TEAM</p>
+            <!--First version -->
+            <div class="row upcoming-once" style="max-height:30%;">
+                <div class="column">
+                    <div class="rounded-image">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img class="rounded-image" src="https://live.staticflickr.com/65535/52854878597_30b604ef4f_n.jpg" alt="Nicholas" style="width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="text">Nicholas Dylan</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <div class="rounded-image">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img class="rounded-image" src="https://live.staticflickr.com/65535/52855635274_6346db3a04_n.jpg" alt="Scott" style="width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="text">Scott Chick</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="rounded-image">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img class="rounded-image" src="https://live.staticflickr.com/65535/52855905778_5d3df5f910_n.jpg" alt="maria" style="width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="text">Frau Susi</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+                <div class="column">
+                    <div class="rounded-image">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img class="rounded-image" src="https://live.staticflickr.com/65535/52855905753_2be6c21bf8_n.jpg" alt="jessica" style="width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="text">Ibu Fitri</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="rounded-image">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img class="rounded-image" src="https://live.staticflickr.com/65535/52855905738_a68853eb87_n.jpg" alt="angmoh guy" style="width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="text">Uncle Bambang</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="rounded-image">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img class="rounded-image" src="https://live.staticflickr.com/65535/52855459356_2401725322_n.jpg" alt="mark" style="width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="text">Mas Ling</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+        </div> 
+        <!-- Second version -->
+    <div class="displayNow column mx-auto teamHolder">
+        <p style="color: rgba(255, 255, 255, 0.717);" class="upcoming parent font-weight-bold moveDown">OUR TEAM</p>
+        <div class="row upcoming-once">
+            <div class="column" >
+                <div class="rounded-image">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img class="rounded-image" src="https://live.staticflickr.com/65535/52854878597_30b604ef4f_n.jpg" alt="Nicholas" style="width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h5 class="text">Nicholas Dylan</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="rounded-image">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img class="rounded-image" src="https://live.staticflickr.com/65535/52855635274_6346db3a04_n.jpg" alt="Scott" style="width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h5 class="text">Scott Chick</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="rounded-image">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img class="rounded-image" src="https://live.staticflickr.com/65535/52855905778_5d3df5f910_n.jpg" alt="maria" style="width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h5 class="text">Frau Susi</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row upcoming-once py-0">
+            <div class="column">
+                <div class="rounded-image">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img class="rounded-image" src="https://live.staticflickr.com/65535/52855905753_2be6c21bf8_n.jpg" alt="jessica" style="width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h5 class="text">Ibu Fitri</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="rounded-image">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img class="rounded-image" src="https://live.staticflickr.com/65535/52855905738_a68853eb87_n.jpg" alt="angmoh guy" style="width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h5 class="text">Uncle Bambang</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="rounded-image">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img class="rounded-image" src="https://live.staticflickr.com/65535/52855459356_2401725322_n.jpg" alt="mark" style="width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h5 class="text">Mas Ling</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    </div>
+</div>
+
+<div class="purpose" >
+    <div style="height: 15vh; width: 100%; margin-bottom: -20px;" >
+        <h2 class="upcoming parent font-weight-bold">OUR PURPOSE?</h2>
+    </div>
+    <div class="row py-0" style="padding-bottom: 20px;">
+        <div class="fog column-purpose rounded-image educationHolder" style="transition-delay: 250ms; background-image: url(https://live.staticflickr.com/65535/53008528533_018fbebf5a_z.jpg); flex: 20%; padding-left: 4%;">
+            <p class="understanding">BUILDING BRIDGES OF UNDERSTANDING,</p>
+            <p class="education">dementia <span>education</span> matters.</p>
+        </div>
+
+        <div class="fog column-purpose rounded-image removeSmall" style=" height: 300px; transition-delay: 400ms; position: relative; background-image: url(https://live.staticflickr.com/65535/53008029831_97d669ce79_b.jpg); background-repeat: no-repeat; background-size: cover;">
+            <h2 class="spread" style="color: #FF9CCE; position: absolute; font-weight: 500; bottom: 0;">Spread <span style="background-image: linear-gradient(rgb(91, 8, 124), rgb(107, 9, 110))";>awareness.</span></h2>
+        </div>
+    </div>
+    <div class="row py-0" style="padding-bottom: 20px;">
+    <div class="fog column-purpose rounded-image displaySmall" style=" height: 300px; transition-delay: 400ms; position: relative; background-image: url(https://live.staticflickr.com/65535/53008029831_97d669ce79_b.jpg); background-repeat: no-repeat; background-size: cover;">
+        <h2 class="spread" style="color: #FF9CCE; position: absolute; font-weight: 500; bottom: 0;">Spread <span style="background-image: linear-gradient(rgb(91, 8, 124), rgb(107, 9, 110))";>awareness.</span></h2>
+    </div>
+</div>
+    <div class="row">
+        <div class="fog column-purpose rounded-image video-container" style="transition-delay: 550ms; margin-bottom: 100px;">
+            <video autoplay muted loop>
+                <source style="background-size: cover; opacity: 0.8;" src="https://live.staticflickr.com/video/53084106441/147c32252b/720p.mp4?s=eyJpIjo1MzA4NDEwNjQ0MSwiZSI6MTY5MTQ5NDY2MywicyI6IjEyN2Q0ZDZmMDAxYWUyNGY4YzJlYjc5NmUwODJlYzNlMGY1YjJlZWEiLCJ2IjoxfQ" type="video/mp4" />            </video>
+            <div class="caption" style="bottom: 0;">
+              <h3 style="font-weight: 400; line-height: 5vh;">A hand to hold, a heart to understand</h3>
+              <h1 style="font-weight: 600; color: rgb(255, 243, 250);"><span style="background-image: linear-gradient(rgb(255, 0, 187), rgb(190, 12, 170))";>CARING</span> FOR DEMENTIA SOULS</h1>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="height: 15vh; width: 100%;">
+    <h2 class="upcoming parent font-weight-bold">OUR SECTIONS</h2>
+</div>
+            <!-- Big version -->
+            <div class="section" style="margin-bottom: 100px;">
+
+                <div class="options" >
+
+                    {% for section in sections %}
+
+                    {% if forloop.counter == 1 %}
+                    <div class="option active" style="--optionBackground:url({{section.image.url}}); cursor: default; background-size: cover;">
+                    {% else %}
+                    <div class="option" style="--optionBackground:url({{section.image.url}}); cursor: default; background-size: cover;">
+                    {% endif %}
+
+                        <div class="shadow"></div>
+                            <div class="label" >
+                                <div class="icon">
+                                    <p style="margin-top: 20px; font-weight: bold;">{{forloop.counter}}</p>
+                                </div>
+                                <div class="info">
+                                    <div class="main" onclick="window.location.href = '{% url 'topics' %}';" style="cursor: pointer;">{{section.title}}</div>
+                                </div>
+                            </div>
+
+                    </div>
+
+                    {% endfor %}
+                   
+                </div>
+            </div>
+
+            <section class="section3">
+                {% for section in sections %}
+                        <div class="img1" style="background-image: url({{section.image.url}}); background-size: cover;" onclick="toggleHeight(this); ">
+                        <div style="width:100%;height:70px;border-bottom-right-radius:10px;border-bottom-left-radius:10px; background-color:black;color:var(--defaultBackground);position: absolute; bottom: 0px; left: 0px;">
+                        <p onclick="window.location.href = '{% url 'topics' %}';"style="position: absolute; bottom: -7px; left: 15px;font-weight: bold; color:white;" >{{forloop.counter}} {{section.title}}</p>
+                        </div>
+                    </div>  
+                        
+                    {% endfor %}
+            </section>
+                
+            <!--Email -->
+            <div class="row removeNow" style="padding-bottom: 20px;">
+                <div style=" width: 100%; padding-top: 7vw">
+                    <div style="width: 40%; float: left; padding-bottom: 3vw; margin-top: 15px;"> 
+                        <h1 class="font-weight: 400; font-weight-bold" style="z-index: 1; margin-bottom: 40px;">Subscribe to our mailbox to get daily updates.</h1>  
+                        
+                        <form method="post" id="task-form" action="{% url 'home' %}" style="background-color: #FFD4D4; border-radius: 20px; padding: 10px;">
+                            {% csrf_token %}
+                            <div style="display: flex;">
+                                <input style="margin: 10px;" type="text" name="username" class="form-control" placeholder="Username" value="{{ username }}" required>
+                            </div>
+            
+                            <div style="margin: 0 10px;">
+                                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" value="{{ email }}" required>                   
+                            </div>
+                            <div style="margin-top: 10px;" >
+                                <p class="pop-up" id="success" style=" margin-left: 10px;color: rgb(70, 173, 41);">Thanks for subscribing!</p>                
+                                <button class="button" id="myForm" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class = "upcominggg filter" style="opacity: 1; margin-left: 40%; height: 650px; background-repeat: no-repeat; background-image: linear-gradient(270deg, transparent 100%, white 80%), linear-gradient(90deg, transparent 90%, rgb(255, 255, 255) 100%),url(https://live.staticflickr.com/65535/53038507680_f9e734edf3_c.jpg); "> 
+                    </div>
+                </div>
+            </div>
+
+            <!--Smaller version-->
+            <div class="row displaySmallEmail" style="padding-bottom: 20px;">
+                    <div style="float: left; margin-top: 15px;"> 
+                        <h1 class="font-weight: 400; font-weight-bold" style="z-index: 1; margin-bottom: 40px;">Subscribe to our mailbox to get daily updates.</h1>  
+                        
+                        <form method="post" id="task-form" action="{% url 'home' %}" style="background-color: #FFD4D4; border-radius: 20px; padding: 10px;">
+                            {% csrf_token %}
+                            <div style="display: flex;">
+                                <input style="margin: 10px;" type="text" name="username" class="form-control" placeholder="Username" value="{{ username }}" required>
+                            </div>
+            
+                            <div style="margin: 0 10px;">
+                                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" value="{{ email }}" required>                   
+                            </div>
+                            <div style="margin-top: 10px;" >
+                                <p class="pop-up" id="success" style=" margin-left: 10px;color: rgb(70, 173, 41);">Thanks for subscribing!</p>                
+                                <button class="button" id="myForm" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                   
+            </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" 
+integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+      $(document).ready(function() {
+
+$("#myForm").click(function() {
+ValidateForm();
+});
+
+});
+
+function ValidateForm() {
+
+var formInvalid = false;
+$('#task-form input').each(function() {
+if ($(this).val() === '') {
+formInvalid = true;
+}
+});
+
+if (!formInvalid)
+document.getElementById("success").style.display = "block";
+}
+
+$(".option").click(function(){
+$(".option").removeClass("active");
+$(this).addClass("active");
+
+});
+
+let expandedImage = null;
+
+function toggleHeight(element) {
+if (expandedImage !== element) {
+// If a different image is clicked, reset the height of the previously expanded image
+if (expandedImage) {
+expandedImage.classList.remove("img1-active");
+}
+
+// Expand the clicked image
+element.classList.add("img1-active");
+expandedImage = element;
+} else {
+// If the same image is clicked again, revert its height to 100px
+element.classList.remove("img1-active");
+expandedImage = null;
+}
+}
+
+  </script>
+
+{% endblock content %}
+
+
+

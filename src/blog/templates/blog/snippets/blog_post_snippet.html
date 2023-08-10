@@ -1,0 +1,34 @@
+<style type="text/css">
+	.card{
+		width: 100%;
+	}
+	.card-body{
+		padding: 20px;
+		word-wrap: break-word;
+	}
+</style>
+
+<div class="container" style="float: left;">
+	<div class="row mt-3">
+		<!-- Blog Post -->
+		<div class="card m-auto" style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
+			<a href="{% url 'blog:detail' post.slug %}">
+				<img class="card-img-top" src="{{post.image.url}}" style="max-height: 150px; border-top-left-radius: 25px; border-top-right-radius: 25px; object-fit: cover;">
+			</a>
+			
+			<div class="card-body mt-2 mb-2">
+				<a href="{% url 'blog:detail' post.slug %}">
+					<h2 class="card-title">{{post.title}}</h2>
+				</a>
+				{% if post.author == request.user %}
+					{% if request.user.is_superuser %}
+						<a href="{% url 'blog:edit' post.slug %}" class="btn btn-primary">Update</a>
+					{% endif %}
+				{% endif %}
+			</div>
+			<div class="card-footer text-muted">
+				Updated on {{post.date_updated}} by {{post.author}}
+			</div>
+		</div>
+	</div>
+</div>
