@@ -14,3 +14,4 @@ The Dementia Carer Training Website is a platform designed to provide training a
 - **Django Framework:** Used for building the website and managing backend functionalities.
 - **SQLite Database:** Utilized to store articles, quizzes, user information, progress, scores, etc.
 - **HTML, CSS, JavaScript, Bootstrap:** Frontend development technologies for creating the website's user interface and interactivity.
+- **Docker, Google Cloud Platform**: Deployment purpose
